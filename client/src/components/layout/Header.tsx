@@ -10,14 +10,8 @@ export default function Header() {
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      // Navigate to home with search filter
-      navigate("/", { 
-        state: { 
-          searchFilter: { 
-            searchQuery: searchQuery.trim() 
-          } 
-        } 
-      });
+      // Use search parameters directly via the URL for better compatibility
+      navigate(`/?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
