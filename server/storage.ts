@@ -92,9 +92,11 @@ export class MemStorage implements IStorage {
       filteredProviders = filteredProviders.filter(p => 
         p.name.toLowerCase().includes(query) || 
         p.specialty.toLowerCase().includes(query) ||
-        p.displayAddress.toLowerCase().includes(query) ||
-        p.bio?.toLowerCase().includes(query) ||
-        p.insurances.some(i => i.toLowerCase().includes(query))
+        (p.officeAddress && 
+          (`${p.officeAddress.street}, ${p.officeAddress.city}, ${p.officeAddress.state} ${p.officeAddress.zipCode}`).toLowerCase().includes(query)
+        ) ||
+        p.about.toLowerCase().includes(query) ||
+        (p.insurances && p.insurances.some(i => i.toLowerCase().includes(query)))
       );
     }
     
@@ -108,7 +110,7 @@ export class MemStorage implements IStorage {
     // Apply insurance filter
     if (filter.insurance && filter.insurance !== "") {
       filteredProviders = filteredProviders.filter(p => 
-        p.insurances.some(i => i.toLowerCase() === filter.insurance?.toLowerCase())
+        p.insurances && p.insurances.some(i => i.toLowerCase() === filter.insurance?.toLowerCase())
       );
     }
     
@@ -152,7 +154,7 @@ export class MemStorage implements IStorage {
       }
       if (filter.additional.spanishSpeaking) {
         filteredProviders = filteredProviders.filter(p => 
-          p.languages.some(l => l.toLowerCase() === "spanish")
+          p.languages && p.languages.some(l => l.toLowerCase() === "spanish")
         );
       }
     }
