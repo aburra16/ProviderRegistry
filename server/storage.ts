@@ -86,6 +86,18 @@ export class MemStorage implements IStorage {
     // Clone all providers so we can filter them
     let filteredProviders = Array.from(this.providers.values());
     
+    // Apply search query filter if provided
+    if (filter.searchQuery && filter.searchQuery !== "") {
+      const query = filter.searchQuery.toLowerCase();
+      filteredProviders = filteredProviders.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        p.specialty.toLowerCase().includes(query) ||
+        p.displayAddress.toLowerCase().includes(query) ||
+        p.bio?.toLowerCase().includes(query) ||
+        p.insurances.some(i => i.toLowerCase().includes(query))
+      );
+    }
+    
     // Apply specialty filter
     if (filter.specialty && filter.specialty !== "") {
       filteredProviders = filteredProviders.filter(p => 

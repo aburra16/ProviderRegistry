@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 import FilterSidebar, { FilterState } from "@/components/filters/FilterSidebar";
 import ProviderCard from "@/components/providers/ProviderCard";
 import Pagination from "@/components/common/Pagination";
@@ -10,9 +11,14 @@ import { apiRequest } from "@/lib/queryClient";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Home() {
+  const location = useLocation();
+  const searchFilterFromHeader = location.state?.searchFilter;
+  
   const [activeTab, setActiveTab] = useState("results");
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState<FilterState | null>(null);
+  const [filters, setFilters] = useState<FilterState | null>(
+    searchFilterFromHeader ? { ...searchFilterFromHeader } : null
+  );
   const [sortOption, setSortOption] = useState("relevance");
   
   // Create query key that includes filters and pagination
@@ -27,12 +33,33 @@ export default function Home() {
     location?: string;
   }>({
     queryKey,
+    queryFn: async () => {
+      if (filters) {
+        // Use search endpoint for filters
+        return apiRequest('POST', '/api/providers/filter', {
+          ...filters,
+          page: currentPage,
+          sort: sortOption
+        });
+      } else {
+        // Use regular providers endpoint
+        return apiRequest('GET', `/api/providers?page=${currentPage}&limit=10&sort=${sortOption}`);
+      }
+    },
   });
 
   // Handle mobile tab change
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
+  
+  // Reset filters when navigating away and back
+  useEffect(() => {
+    if (searchFilterFromHeader) {
+      setFilters(searchFilterFromHeader);
+      setCurrentPage(1);
+    }
+  }, [searchFilterFromHeader]);
 
   // Handle filter changes
   const handleFilterChange = (newFilters: FilterState) => {

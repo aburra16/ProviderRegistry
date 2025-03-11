@@ -92,6 +92,7 @@ export type InsertInsurancePlan = z.infer<typeof insertInsurancePlanSchema>;
 
 // Filter schema for provider search
 export const providerFilterSchema = z.object({
+  searchQuery: z.string().optional(),
   specialty: z.string().optional(),
   zipCode: z.string().optional(),
   radius: z.string().optional(),
