@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 
 interface FilterSidebarProps {
   onFilterChange: (filters: FilterState) => void;
+  switchToResultsTab?: () => void;
   className?: string;
 }
 
@@ -27,7 +28,7 @@ export interface FilterState {
   };
 }
 
-export default function FilterSidebar({ onFilterChange, className }: FilterSidebarProps) {
+export default function FilterSidebar({ onFilterChange, switchToResultsTab, className }: FilterSidebarProps) {
   const [filters, setFilters] = useState<FilterState>({
     specialty: "",
     zipCode: "",
@@ -58,6 +59,10 @@ export default function FilterSidebar({ onFilterChange, className }: FilterSideb
   // Apply filters
   const handleApplyFilters = () => {
     onFilterChange(filters);
+    // Switch to results tab if the function is provided
+    if (switchToResultsTab) {
+      switchToResultsTab();
+    }
   };
 
   // Clear all filters
@@ -80,6 +85,11 @@ export default function FilterSidebar({ onFilterChange, className }: FilterSideb
     };
     setFilters(resetFilters);
     onFilterChange(resetFilters);
+    
+    // Switch to results tab if the function is provided
+    if (switchToResultsTab) {
+      switchToResultsTab();
+    }
   };
 
   // Update a single filter

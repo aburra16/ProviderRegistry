@@ -125,7 +125,10 @@ export default function Home() {
       <div className="flex flex-col md:flex-row gap-6">
         {/* Filter sidebar - hidden on mobile when results tab is active */}
         <div className={`${activeTab === 'results' && isMobile ? 'hidden' : 'block'}`}>
-          <FilterSidebar onFilterChange={handleFilterChange} />
+          <FilterSidebar 
+            onFilterChange={handleFilterChange} 
+            switchToResultsTab={() => setActiveTab("results")}
+          />
         </div>
 
         {/* Results section - hidden on mobile when search tab is active */}
