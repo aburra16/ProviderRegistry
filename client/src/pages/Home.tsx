@@ -130,12 +130,13 @@ export default function Home() {
 
       <div className="flex flex-col md:flex-row gap-8">
         {/* Filter sidebar - hidden on mobile when results tab is active */}
-        <div className={`${activeTab === 'results' && isMobile ? 'hidden' : 'block'} md:w-1/3 lg:w-1/3`}>
-          <FilterSidebar 
-            onFilterChange={handleFilterChange} 
-            switchToResultsTab={() => setActiveTab("results")}
-            className="sticky top-4"
-          />
+        <div className={`${activeTab === 'results' && isMobile ? 'hidden' : 'block'} md:w-1/3 lg:w-1/3 md:sticky md:top-4 md:self-start pb-8`}>
+          <div className="md:max-h-[calc(100vh-6rem)] md:overflow-y-auto pr-2 scrollbar-thin">
+            <FilterSidebar 
+              onFilterChange={handleFilterChange} 
+              switchToResultsTab={() => setActiveTab("results")}
+            />
+          </div>
         </div>
 
         {/* Results section - hidden on mobile when search tab is active */}
