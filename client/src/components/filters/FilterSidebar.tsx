@@ -126,11 +126,11 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
   };
 
   return (
-    <aside className={`w-full md:w-1/4 lg:w-1/5 bg-white rounded-lg shadow-sm p-4 h-fit ${className}`}>
-      <div className="flex justify-between items-center mb-4">
+    <aside className={`w-full md:w-1/4 lg:w-1/4 bg-white rounded-lg shadow-sm p-5 h-fit ${className}`}>
+      <div className="flex justify-between items-center mb-5">
         <h2 className="text-lg font-semibold">Filters</h2>
         <button 
-          className="text-primary text-sm font-semibold"
+          className="text-primary text-sm font-semibold hover:underline"
           onClick={handleClearFilters}
         >
           Clear All
@@ -139,13 +139,13 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
 
       {/* Filter: Specialty */}
       <div className="mb-6">
-        <h3 className="font-semibold mb-2">Specialty</h3>
+        <h3 className="font-semibold mb-3 text-gray-700">Specialty</h3>
         <div className="relative">
           <Select 
             value={filters.specialty}
             onValueChange={(value) => updateFilter("specialty", value)}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full border-gray-300">
               <SelectValue placeholder="All Specialties" />
             </SelectTrigger>
             <SelectContent>
@@ -174,20 +174,20 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
 
       {/* Filter: Location */}
       <div className="mb-6">
-        <h3 className="font-semibold mb-2">Location</h3>
+        <h3 className="font-semibold mb-3 text-gray-700">Location</h3>
         <div className="flex gap-2 mb-2">
           <Input
             type="text"
             placeholder="ZIP Code"
             value={filters.zipCode}
             onChange={(e) => updateFilter("zipCode", e.target.value)}
-            className="flex-grow"
+            className="flex-grow border-gray-300"
           />
           <Select 
             value={filters.radius}
             onValueChange={(value) => updateFilter("radius", value)}
           >
-            <SelectTrigger className="w-28">
+            <SelectTrigger className="w-28 border-gray-300">
               <SelectValue placeholder="5 miles" />
             </SelectTrigger>
             <SelectContent>
@@ -202,13 +202,13 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
 
       {/* Filter: Insurance */}
       <div className="mb-6">
-        <h3 className="font-semibold mb-2">Insurance</h3>
+        <h3 className="font-semibold mb-3 text-gray-700">Insurance</h3>
         <div className="relative">
           <Select 
             value={filters.insurance}
             onValueChange={(value) => updateFilter("insurance", value)}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full border-gray-300">
               <SelectValue placeholder="Select Insurance" />
             </SelectTrigger>
             <SelectContent>
@@ -237,9 +237,9 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
 
       {/* Filter: Availability */}
       <div className="mb-6">
-        <h3 className="font-semibold mb-2">Availability</h3>
-        <div className="flex flex-wrap gap-2">
-          <label className={`inline-flex items-center px-3 py-1 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.today ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+        <h3 className="font-semibold mb-3 text-gray-700">Availability</h3>
+        <div className="flex flex-wrap gap-3">
+          <label className={`inline-flex items-center px-4 py-2 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.today ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
             <input 
               type="checkbox" 
               className="sr-only" 
@@ -248,7 +248,7 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
             />
             Today
           </label>
-          <label className={`inline-flex items-center px-3 py-1 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.thisWeek ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+          <label className={`inline-flex items-center px-4 py-2 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.thisWeek ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
             <input 
               type="checkbox" 
               className="sr-only" 
@@ -257,7 +257,7 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
             />
             This Week
           </label>
-          <label className={`inline-flex items-center px-3 py-1 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.weekends ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+          <label className={`inline-flex items-center px-4 py-2 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.weekends ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
             <input 
               type="checkbox" 
               className="sr-only" 
@@ -270,16 +270,16 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
       </div>
 
       {/* Additional Filters */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-2">Additional Filters</h3>
-        <div className="space-y-2">
+      <div className="mb-8">
+        <h3 className="font-semibold mb-3 text-gray-700">Additional Filters</h3>
+        <div className="space-y-3">
           <label className="flex items-center">
             <Checkbox 
               checked={filters.additional.acceptingNewPatients}
               onCheckedChange={(checked) => 
                 updateAdditionalFilter("acceptingNewPatients", checked === true)
               }
-              className="mr-2"
+              className="mr-3 h-5 w-5"
             />
             <span>Accepting New Patients</span>
           </label>
@@ -289,7 +289,7 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
               onCheckedChange={(checked) => 
                 updateAdditionalFilter("virtualVisits", checked === true)
               }
-              className="mr-2"
+              className="mr-3 h-5 w-5"
             />
             <span>Virtual Visits</span>
           </label>
@@ -299,7 +299,7 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
               onCheckedChange={(checked) => 
                 updateAdditionalFilter("spanishSpeaking", checked === true)
               }
-              className="mr-2"
+              className="mr-3 h-5 w-5"
             />
             <span>Spanish Speaking</span>
           </label>
@@ -307,7 +307,7 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
       </div>
 
       <Button 
-        className="w-full bg-primary hover:bg-primary/90 text-white font-semibold"
+        className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2 text-base"
         onClick={handleApplyFilters}
       >
         Apply Filters
