@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "wouter";
 import FilterSidebar, { FilterState } from "@/components/filters/FilterSidebar";
 import ProviderCard from "@/components/providers/ProviderCard";
 import Pagination from "@/components/common/Pagination";
