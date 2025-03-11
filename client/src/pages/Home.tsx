@@ -21,10 +21,17 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState("results");
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState<FilterState | null>(null);
-  const [searchParamsState, setSearchParamsState] = useState<Partial<ProviderFilter> | null>(
-    searchQueryFromUrl ? { searchQuery: searchQueryFromUrl } : null
-  );
+  const [searchParamsState, setSearchParamsState] = useState<Partial<ProviderFilter> | null>(null);
   const [sortOption, setSortOption] = useState("relevance");
+  
+  // Update search params when URL changes
+  useEffect(() => {
+    if (searchQueryFromUrl) {
+      setSearchParamsState({ searchQuery: searchQueryFromUrl });
+    } else {
+      setSearchParamsState(null);
+    }
+  }, [searchQueryFromUrl]);
   
   // Create query key that includes filters, search, and pagination
   const queryKey = (filters || searchParamsState) 
@@ -64,12 +71,11 @@ export default function Home() {
     setActiveTab(value);
   };
   
-  // Reset filters when URL changes
+  // Update UI when search query changes
   useEffect(() => {
     if (searchQueryFromUrl) {
-      // Clear any existing filters and set the search query
+      // Clear any existing filters
       setFilters(null);
-      setSearchParamsState({ searchQuery: searchQueryFromUrl });
       setCurrentPage(1);
       
       // If on mobile, switch to results tab when search is performed
