@@ -126,9 +126,9 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
   };
 
   return (
-    <aside className={`w-full md:w-1/4 lg:w-1/4 bg-white rounded-lg shadow-sm p-5 h-fit ${className}`}>
-      <div className="flex justify-between items-center mb-5">
-        <h2 className="text-lg font-semibold">Filters</h2>
+    <aside className={`w-full bg-white rounded-lg shadow-sm p-6 h-fit ${className}`}>
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-xl font-semibold">Filters</h2>
         <button 
           className="text-primary text-sm font-semibold hover:underline"
           onClick={handleClearFilters}
@@ -137,181 +137,186 @@ export default function FilterSidebar({ onFilterChange, switchToResultsTab, clas
         </button>
       </div>
 
-      {/* Filter: Specialty */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-3 text-gray-700">Specialty</h3>
-        <div className="relative">
-          <Select 
-            value={filters.specialty}
-            onValueChange={(value) => updateFilter("specialty", value)}
-          >
-            <SelectTrigger className="w-full border-gray-300">
-              <SelectValue placeholder="All Specialties" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Specialties</SelectItem>
-              {Array.isArray(specialties) && specialties.length > 0 ? (
-                specialties.map((specialty: string) => (
-                  <SelectItem key={specialty} value={specialty}>
-                    {specialty}
-                  </SelectItem>
-                ))
-              ) : (
-                <>
-                  <SelectItem value="primary-care">Primary Care</SelectItem>
-                  <SelectItem value="cardiology">Cardiology</SelectItem>
-                  <SelectItem value="dermatology">Dermatology</SelectItem>
-                  <SelectItem value="orthopedics">Orthopedics</SelectItem>
-                  <SelectItem value="neurology">Neurology</SelectItem>
-                  <SelectItem value="psychiatry">Psychiatry</SelectItem>
-                  <SelectItem value="pediatrics">Pediatrics</SelectItem>
-                </>
-              )}
-            </SelectContent>
-          </Select>
+      {/* Filter sections with increased spacing */}
+      <div className="space-y-8">
+        {/* Filter: Specialty */}
+        <div>
+          <h3 className="font-semibold mb-4 text-gray-700 text-base">Specialty</h3>
+          <div className="relative">
+            <Select 
+              value={filters.specialty}
+              onValueChange={(value) => updateFilter("specialty", value)}
+            >
+              <SelectTrigger className="w-full border-gray-300 h-11">
+                <SelectValue placeholder="All Specialties" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Specialties</SelectItem>
+                {Array.isArray(specialties) && specialties.length > 0 ? (
+                  specialties.map((specialty: string) => (
+                    <SelectItem key={specialty} value={specialty}>
+                      {specialty}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <>
+                    <SelectItem value="primary-care">Primary Care</SelectItem>
+                    <SelectItem value="cardiology">Cardiology</SelectItem>
+                    <SelectItem value="dermatology">Dermatology</SelectItem>
+                    <SelectItem value="orthopedics">Orthopedics</SelectItem>
+                    <SelectItem value="neurology">Neurology</SelectItem>
+                    <SelectItem value="psychiatry">Psychiatry</SelectItem>
+                    <SelectItem value="pediatrics">Pediatrics</SelectItem>
+                  </>
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Filter: Location */}
+        <div>
+          <h3 className="font-semibold mb-4 text-gray-700 text-base">Location</h3>
+          <div className="flex gap-3 mb-2">
+            <Input
+              type="text"
+              placeholder="ZIP Code"
+              value={filters.zipCode}
+              onChange={(e) => updateFilter("zipCode", e.target.value)}
+              className="flex-grow border-gray-300 h-11"
+            />
+            <Select 
+              value={filters.radius}
+              onValueChange={(value) => updateFilter("radius", value)}
+            >
+              <SelectTrigger className="w-28 border-gray-300 h-11">
+                <SelectValue placeholder="5 miles" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="5">5 miles</SelectItem>
+                <SelectItem value="10">10 miles</SelectItem>
+                <SelectItem value="25">25 miles</SelectItem>
+                <SelectItem value="50">50 miles</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Filter: Insurance */}
+        <div>
+          <h3 className="font-semibold mb-4 text-gray-700 text-base">Insurance</h3>
+          <div className="relative">
+            <Select 
+              value={filters.insurance}
+              onValueChange={(value) => updateFilter("insurance", value)}
+            >
+              <SelectTrigger className="w-full border-gray-300 h-11">
+                <SelectValue placeholder="Select Insurance" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Select Insurance</SelectItem>
+                {Array.isArray(insurancePlans) && insurancePlans.length > 0 ? (
+                  insurancePlans.map((plan: string) => (
+                    <SelectItem key={plan} value={plan}>
+                      {plan}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <>
+                    <SelectItem value="aetna">Aetna</SelectItem>
+                    <SelectItem value="blueCross">Blue Cross Blue Shield</SelectItem>
+                    <SelectItem value="cigna">Cigna</SelectItem>
+                    <SelectItem value="humana">Humana</SelectItem>
+                    <SelectItem value="medicaid">Medicaid</SelectItem>
+                    <SelectItem value="medicare">Medicare</SelectItem>
+                    <SelectItem value="unitedHealthcare">UnitedHealthcare</SelectItem>
+                  </>
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Filter: Availability */}
+        <div>
+          <h3 className="font-semibold mb-4 text-gray-700 text-base">Availability</h3>
+          <div className="flex flex-col gap-3">
+            <label className={`inline-flex items-center justify-center py-2 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.today ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+              <input 
+                type="checkbox" 
+                className="sr-only" 
+                checked={filters.availability.today}
+                onChange={(e) => updateAvailabilityFilter("today", e.target.checked)}
+              />
+              Today
+            </label>
+            <label className={`inline-flex items-center justify-center py-2 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.thisWeek ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+              <input 
+                type="checkbox" 
+                className="sr-only" 
+                checked={filters.availability.thisWeek}
+                onChange={(e) => updateAvailabilityFilter("thisWeek", e.target.checked)}
+              />
+              This Week
+            </label>
+            <label className={`inline-flex items-center justify-center py-2 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.weekends ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+              <input 
+                type="checkbox" 
+                className="sr-only" 
+                checked={filters.availability.weekends}
+                onChange={(e) => updateAvailabilityFilter("weekends", e.target.checked)}
+              />
+              Weekends
+            </label>
+          </div>
+        </div>
+
+        {/* Additional Filters */}
+        <div>
+          <h3 className="font-semibold mb-4 text-gray-700 text-base">Additional Filters</h3>
+          <div className="space-y-4">
+            <label className="flex items-center">
+              <Checkbox 
+                checked={filters.additional.acceptingNewPatients}
+                onCheckedChange={(checked) => 
+                  updateAdditionalFilter("acceptingNewPatients", checked === true)
+                }
+                className="mr-3 h-5 w-5"
+              />
+              <span>Accepting New Patients</span>
+            </label>
+            <label className="flex items-center">
+              <Checkbox 
+                checked={filters.additional.virtualVisits}
+                onCheckedChange={(checked) => 
+                  updateAdditionalFilter("virtualVisits", checked === true)
+                }
+                className="mr-3 h-5 w-5"
+              />
+              <span>Virtual Visits</span>
+            </label>
+            <label className="flex items-center">
+              <Checkbox 
+                checked={filters.additional.spanishSpeaking}
+                onCheckedChange={(checked) => 
+                  updateAdditionalFilter("spanishSpeaking", checked === true)
+                }
+                className="mr-3 h-5 w-5"
+              />
+              <span>Spanish Speaking</span>
+            </label>
+          </div>
         </div>
       </div>
 
-      {/* Filter: Location */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-3 text-gray-700">Location</h3>
-        <div className="flex gap-2 mb-2">
-          <Input
-            type="text"
-            placeholder="ZIP Code"
-            value={filters.zipCode}
-            onChange={(e) => updateFilter("zipCode", e.target.value)}
-            className="flex-grow border-gray-300"
-          />
-          <Select 
-            value={filters.radius}
-            onValueChange={(value) => updateFilter("radius", value)}
-          >
-            <SelectTrigger className="w-28 border-gray-300">
-              <SelectValue placeholder="5 miles" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="5">5 miles</SelectItem>
-              <SelectItem value="10">10 miles</SelectItem>
-              <SelectItem value="25">25 miles</SelectItem>
-              <SelectItem value="50">50 miles</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="mt-10">
+        <Button 
+          className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 text-base"
+          onClick={handleApplyFilters}
+        >
+          Apply Filters
+        </Button>
       </div>
-
-      {/* Filter: Insurance */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-3 text-gray-700">Insurance</h3>
-        <div className="relative">
-          <Select 
-            value={filters.insurance}
-            onValueChange={(value) => updateFilter("insurance", value)}
-          >
-            <SelectTrigger className="w-full border-gray-300">
-              <SelectValue placeholder="Select Insurance" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Select Insurance</SelectItem>
-              {Array.isArray(insurancePlans) && insurancePlans.length > 0 ? (
-                insurancePlans.map((plan: string) => (
-                  <SelectItem key={plan} value={plan}>
-                    {plan}
-                  </SelectItem>
-                ))
-              ) : (
-                <>
-                  <SelectItem value="aetna">Aetna</SelectItem>
-                  <SelectItem value="blueCross">Blue Cross Blue Shield</SelectItem>
-                  <SelectItem value="cigna">Cigna</SelectItem>
-                  <SelectItem value="humana">Humana</SelectItem>
-                  <SelectItem value="medicaid">Medicaid</SelectItem>
-                  <SelectItem value="medicare">Medicare</SelectItem>
-                  <SelectItem value="unitedHealthcare">UnitedHealthcare</SelectItem>
-                </>
-              )}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      {/* Filter: Availability */}
-      <div className="mb-6">
-        <h3 className="font-semibold mb-3 text-gray-700">Availability</h3>
-        <div className="flex flex-wrap gap-3">
-          <label className={`inline-flex items-center px-4 py-2 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.today ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
-            <input 
-              type="checkbox" 
-              className="sr-only" 
-              checked={filters.availability.today}
-              onChange={(e) => updateAvailabilityFilter("today", e.target.checked)}
-            />
-            Today
-          </label>
-          <label className={`inline-flex items-center px-4 py-2 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.thisWeek ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
-            <input 
-              type="checkbox" 
-              className="sr-only" 
-              checked={filters.availability.thisWeek}
-              onChange={(e) => updateAvailabilityFilter("thisWeek", e.target.checked)}
-            />
-            This Week
-          </label>
-          <label className={`inline-flex items-center px-4 py-2 rounded-full text-sm border border-primary cursor-pointer transition-colors ${filters.availability.weekends ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
-            <input 
-              type="checkbox" 
-              className="sr-only" 
-              checked={filters.availability.weekends}
-              onChange={(e) => updateAvailabilityFilter("weekends", e.target.checked)}
-            />
-            Weekends
-          </label>
-        </div>
-      </div>
-
-      {/* Additional Filters */}
-      <div className="mb-8">
-        <h3 className="font-semibold mb-3 text-gray-700">Additional Filters</h3>
-        <div className="space-y-3">
-          <label className="flex items-center">
-            <Checkbox 
-              checked={filters.additional.acceptingNewPatients}
-              onCheckedChange={(checked) => 
-                updateAdditionalFilter("acceptingNewPatients", checked === true)
-              }
-              className="mr-3 h-5 w-5"
-            />
-            <span>Accepting New Patients</span>
-          </label>
-          <label className="flex items-center">
-            <Checkbox 
-              checked={filters.additional.virtualVisits}
-              onCheckedChange={(checked) => 
-                updateAdditionalFilter("virtualVisits", checked === true)
-              }
-              className="mr-3 h-5 w-5"
-            />
-            <span>Virtual Visits</span>
-          </label>
-          <label className="flex items-center">
-            <Checkbox 
-              checked={filters.additional.spanishSpeaking}
-              onCheckedChange={(checked) => 
-                updateAdditionalFilter("spanishSpeaking", checked === true)
-              }
-              className="mr-3 h-5 w-5"
-            />
-            <span>Spanish Speaking</span>
-          </label>
-        </div>
-      </div>
-
-      <Button 
-        className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2 text-base"
-        onClick={handleApplyFilters}
-      >
-        Apply Filters
-      </Button>
     </aside>
   );
 }

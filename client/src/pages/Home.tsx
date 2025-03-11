@@ -130,7 +130,7 @@ export default function Home() {
 
       <div className="flex flex-col md:flex-row gap-8">
         {/* Filter sidebar - hidden on mobile when results tab is active */}
-        <div className={`${activeTab === 'results' && isMobile ? 'hidden' : 'block'} md:w-1/4 lg:w-1/4`}>
+        <div className={`${activeTab === 'results' && isMobile ? 'hidden' : 'block'} md:w-1/3 lg:w-1/3`}>
           <FilterSidebar 
             onFilterChange={handleFilterChange} 
             switchToResultsTab={() => setActiveTab("results")}
@@ -139,7 +139,7 @@ export default function Home() {
         </div>
 
         {/* Results section - hidden on mobile when search tab is active */}
-        <section className={`w-full md:w-3/4 lg:w-3/4 ${activeTab === 'search' && isMobile ? 'hidden' : 'block'}`}>
+        <section className={`w-full md:w-2/3 lg:w-2/3 ${activeTab === 'search' && isMobile ? 'hidden' : 'block'}`}>
           <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
